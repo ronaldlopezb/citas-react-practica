@@ -2,7 +2,25 @@ import { useState, useEffect } from 'react'
 
 const Formulario = () => {
   const [nombre, setNombre] = useState('');
-  console.log(nombre)
+  const [propietario, setPropietario] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [fechaAlta, setFechaAlta] = useState('');
+  const [sintomas, setSintomas] = useState('');
+
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if ( [ nombre, propietario, correo, fechaAlta, sintomas].includes('')) {
+      console.log('algun campo está vacio')
+      setError(true)
+      return;
+    }
+    
+    setError(false)
+    
+  }
 
   return (
     <div className="md:w-1/2 lg:w-2/5">
@@ -17,13 +35,23 @@ const Formulario = () => {
         </span>
       </p>
 
-      <form className="bg-white shadow-md rounded-lg py-10 px-5 mb-10">
+      <form 
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg py-10 px-5 mb-10" >
+
+          {error && 
+            <div className="bg-red-800 text-white text-center p-3 uppercase font-bold mb-3 rounded">
+              <p>Todos los campos son obligatorio</p>
+            </div>
+          }
+          
+
 
         <div className="mb-5">
           <label 
             htmlFor="mascota"
             className="block text-gray-700 uppercase font-bold">
-            Nombre Mascota
+            Nombre Mascota {nombre}
           </label>
 
           <input
@@ -31,6 +59,7 @@ const Formulario = () => {
             type = "text"
             placeholder="Nombre de la Mascota"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400"
+            onChange={e => setNombre(e.target.value)}
           />
         </div>
 
@@ -45,7 +74,8 @@ const Formulario = () => {
             id="propietario"
             type = "text"
             placeholder="Nombre del Propietario"
-            className="border-2 w-full p-2 mt-2 placeholder-gray-400  "
+            className="border-2 w-full p-2 mt-2 placeholder-gray-400"
+            onChange={e => setPropietario(e.target.value)}
           />
         </div>
 
@@ -60,7 +90,8 @@ const Formulario = () => {
             id="email"
             type = "email"
             placeholder="Ingrese su email"
-            className="border-2 w-full p-2 mt-2 placeholder-gray-400 "
+            className="border-2 w-full p-2 mt-2 placeholder-gray-400"
+            onChange={e => setCorreo(e.target.value)}
           />
         </div>
 
@@ -74,7 +105,8 @@ const Formulario = () => {
           <input
             id="alta"
             type = "date"
-            className="border-2 w-full p-2 mt-2 placeholder-gray-400  "
+            className="border-2 w-full p-2 mt-2 placeholder-gray-400"
+            onChange={e => setFechaAlta(e.target.value)}
           />
         </div>
 
@@ -87,8 +119,9 @@ const Formulario = () => {
 
           <textarea
             id="sintomas"
-            className="border-2 w-full p-2 mt-2 placeholder-gray-400  "
+            className="border-2 w-full p-2 mt-2 placeholder-gray-400"
             placeholder="Describe los síntomas"
+            onChange={e => setSintomas(e.target.value)}
           />
         </div>
 
